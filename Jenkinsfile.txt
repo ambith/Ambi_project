@@ -1,0 +1,24 @@
+pipeline {
+    agent any
+        environment {
+                PATH = "/etc/maven/bin:$PATH"
+                 }
+    stages {
+        stage('Tardid') {
+            steps {
+                echo 'Hello Tardid'
+            }
+        }
+        stage('GIT HUB') {
+            steps {
+               checkout([$class: 'GitSCM', branches: [[name: '*/master']], doGenerateSubmoduleConfigurations: false, extensions: [], submoduleCfg: [], userRemoteConfigs: [[credentialsId: '0f42ebd4-f100-4ff9-bf81-56cdec621b1c', url: 'https://github.com/ambith/Ambi_Demo.git']]])
+            }
+        }
+        stage ("compile package the code") {
+                steps {
+                   sh "mvn clean package"
+                }
+            }
+        
+        }
+    }
